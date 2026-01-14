@@ -25,7 +25,15 @@ defmodule Sequin.Finch do
           min(400, max(50, trunc(base_size)))
       end
 
-    pools = %{default: [size: pool_size, count: config!(:pool_count)]}
+    pools = %{
+      default: [
+        size: pool_size,
+        count: config!(:pool_count),
+        conn_opts: [
+          transport_opts: [verify: :verify_none]
+        ]
+      ]
+    }
 
     {Finch, name: __MODULE__, pools: pools, pool_timeout: to_timeout(second: 10)}
   end
